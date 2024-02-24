@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Haydar Akın Sözlük</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/mystyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TatliSozluk.MvcCoreWebUI.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+    <header>
+        
+        <nav class="navbar navbar-expand-md navbar-light bg-purple c-white border-bottom box-shadow mb-3">
+            <div class="container-fluid" style="color:white">
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Haydar Akın Sözlük</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="home" asp-action="index">Ana Sayfa</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="message" asp-action="index"><i class="fas fa-envelope"></i> Mesajlar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="heading" asp-action="addheading">Başlık Oluştur</a>
+                            </li>
+                            @await Component.InvokeAsync("_ProfileLayout")
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="admin" asp-action="index">Admin Menu</a>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="account" asp-action="logout">@User.Identity.Name, Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="account" asp-action="login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="account" asp-action="register">Register</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <main class="container my-5">
+                <div class="row">
+                    <div id="categoryListContainer" class="col-md-3 text-center">
+                        @await Component.InvokeAsync("_CategoryList")
+                    </div>
+
+                    <div class="col-md-9">
+                        <!-- Bu kısmı ekleyebilirsiniz -->
+                        @RenderBody()
+                    </div>
+                </div>
+            </main>
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Haydar Akın Sözlük
+        </div>
+    </footer>
+    <script>
+        // JavaScript ile cihazın genişliğini kontrol et
+        function checkMobile() {
+            var categoryListContainer = document.getElementById('categoryListContainer');
+
+            if (window.innerWidth <= 768) {
+                categoryListContainer.classList.add('d-md-none');
+                categoryListContainer.classList.add('d-md-flex');
+                categoryListContainer.classList.add('flex-md-column');
+                categoryListContainer.classList.add('d-flex');
+                categoryListContainer.classList.add('align-items-center');
+                categoryListContainer.classList.add('justify-content-center');
+                categoryListContainer.style.height = "100vh"; // Doğru syntax ile stil ayarı
+            } else {
+                categoryListContainer.classList.remove('d-md-none');
+                categoryListContainer.classList.remove('d-md-flex');
+                categoryListContainer.classList.remove('flex-md-column');
+                categoryListContainer.classList.remove('d-flex');
+                categoryListContainer.classList.remove('align-items-center');
+                categoryListContainer.classList.remove('justify-content-center');
+                categoryListContainer.style.height = "auto"; // Stil ayarını kaldır
+            }
+        }
+
+        // Sayfa yüklendiğinde ve pencere boyutu değiştikçe kontrolü yap
+        document.addEventListener('DOMContentLoaded', checkMobile);
+        window.addEventListener('resize', checkMobile);
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

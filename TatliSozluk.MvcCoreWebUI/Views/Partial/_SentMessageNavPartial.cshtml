@@ -1,0 +1,19 @@
+﻿@model MessageViewModel
+<div class="col-md-4" style="margin-top:5%">
+	<div class="card-header">
+		<h3 class="card-title">Mesaj Gönder</h3>
+		<form asp-action="Index">
+			<div class="mb-3">
+				<label for="text" class="form-label">Kime (Kullanıcı Adı)</label>
+				<input type="text" class="form-control" id="ReceiverId" asp-for="MessageForReply.ReceiverId" as placeholder="Kullancı adı giriniz" required>
+			</div>
+			<div class="mb-3">
+				<label for="text" class="form-label">Açıklama</label>
+				<textarea class="form-control" id="text" asp-for="MessageForReply.Text" rows="5" placeholder="Mesajınız" required></textarea>
+			</div>
+			<div class="mb-3">
+				<button type="submit" class="btn btn-primary">Gönder</button>
+			</div>
+		</form>
+	</div>
+</div>

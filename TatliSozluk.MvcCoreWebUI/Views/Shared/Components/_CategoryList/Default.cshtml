@@ -1,0 +1,92 @@
+﻿@model TatliSozluk.MvcCoreWebUI.Models.LayoutViewModel
+
+<!-- Bootstrap CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+	.custom-sidebar {
+		max-width: 200px; /* İstenilen genişlikte ayarlayabilirsiniz */
+		min-width: 150px; /* İstenilen genişlikte ayarlayabilirsiniz */
+	}
+
+	.user-list {
+		max-height: 200px; /* İstenilen yükseklikte ayarlayabilirsiniz */
+		overflow-y: auto;
+	}
+
+	.categories-list {
+		max-height: 300px; /* İstenilen yükseklikte ayarlayabilirsiniz */
+		overflow-y: auto;
+	}
+</style>
+
+<div style="margin-bottom:10%">
+	<!-- Sol taraf (Kullanıcı arama ve listesi) -->
+	<div class="custom-sidebar">
+		<!-- Kullanıcı arama formu -->
+		<h3>Kategoriler</h3>
+		<div class="list-group categories-list">
+			<a href="/home" class="list-group-item list-group-item-action">
+				Popüler Entryler
+			</a>
+			@foreach (var item in Model.Categories)
+			{
+				<a href="/category/index/@item.Id" class="list-group-item list-group-item-action">@item.Name</a>
+			}
+		</div>
+		<br />
+		<form id="searchForm">
+			<div class="mb-3">
+				<label for="searchUser" class="form-label">Kullanıcı Ara:</label>
+				<input type="text" class="form-control" id="searchUser" placeholder="Kullanıcı adını girin" required>
+			</div>
+		</form>
+		<div id="userList" class="list-group user-list">
+			<!-- Tüm kullanıcıları listele -->
+			@foreach (var user in Model.Users)
+			{
+				<a data-userid="@user.UserName" class="list-group-item list-group-item-action">
+					<p class="mb-0">@user.UserName</p>
+				</a>
+			}
+		</div>
+
+
+	</div>
+</div>
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+	$(document).ready(function () {
+		$('#searchUser').on('input', function () {
+			searchUser();
+		});
+
+		function searchUser() {
+			var searchValue = $('#searchUser').val().toLowerCase();
+			$('#userList a').each(function () {
+				var userId = $(this).data('userid').toString().toLowerCase();
+				var username = $(this).find('p').text().toLowerCase(); // Kullanıcı adını p etiketi içinden alın
+				if (userId.includes(searchValue) || username.includes(searchValue)) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			});
+		}
+
+		$('#userList').on('click', 'a', function () {
+			var selectedUserId = $(this).data('userid');
+			postUserClick(selectedUserId);
+		});
+		function postUserClick(selectedUserId) {
+			console.log('Selected User ID: ', selectedUserId);
+			var profileUrl = '@Url.Action("Profile", "Account")?username=' + selectedUserId;
+			window.location.href = profileUrl;
+		}
+
+	});
+</script>

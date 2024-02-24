@@ -1,0 +1,121 @@
+﻿@model GetChatsViewModel
+@{
+	ViewData["Title"] = "GetChats";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+	#userList {
+		max-height: 300px; /* Uygun bir değer ayarlayabilirsiniz */
+		overflow-y: auto;
+	}
+</style>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Your script file -->
+<script>
+	$(document).ready(function () {
+		$('#searchUser').on('input', function () {
+			searchUser();
+		});
+
+		function searchUser() {
+			var searchValue = $('#searchUser').val().toLowerCase();
+			$('#userList li').each(function () {
+				var username = $(this).data('username').toLowerCase();
+				if (username.includes(searchValue)) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			});
+		}
+
+		$('#userList').on('click', 'li', function () {
+			var selectedUsername = $(this).data('username');
+			postUserClick(selectedUsername);
+		});
+
+		function postUserClick(username) {
+			// Create a form dynamically
+			var form = $('<form>', {
+				'action': '/Admin/GetChats',  // Change this URL as needed
+				'method': 'POST'
+			});
+
+			// Append an input field for the clickedUsername parameter
+			form.append($('<input>', {
+				'type': 'hidden',
+				'name': 'clickedUsername',
+				'value': username
+			}));
+
+			// Append the form to the body and submit it
+			form.appendTo('body').submit();
+		}
+
+
+		//function displayUserData(userData) {
+		//	// Kullanıcı verilerini sağdaki tabloya ekleyen işlev
+		//	// userData içinde gelen verileri kullanarak tabloyu güncelleyin
+		//	// Örneğin: $('#messageTableBody').html(userData);
+		//}
+	});
+</script>
+<div class="container">
+	<div class="row">
+		<!-- All Users List -->
+		<div class="col-md-4">
+			<h3>Tüm Kullanıcılar</h3>
+			<!-- Kullanıcı arama formu -->
+			<form id="searchForm">
+				<div class="mb-3">
+					<label for="searchUser" class="form-label">Kullanıcı Ara:</label>
+					<input type="text" class="form-control" id="searchUser" placeholder="Kullanıcı adını girin" required>
+				</div>
+			</form>
+			<ol id="userList" class="list-group">
+				<!-- Users will be dynamically added here -->
+				@foreach (var user in Model.Users)
+				{
+					<u>
+					<li data-username="@user.UserName" style="display: block;"><p>@user.UserName</p></li></u>
+				}
+			</ol>
+		</div>
+
+		<!-- Message Section -->
+		<div class="col-md-8">
+			<!-- Mesajlar tablosu -->
+			<h3 class="mt-4">Mesajlar</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Gönderen</th>
+						<th scope="col">Alıcı</th>
+						<th scope="col">Mesaj</th>
+						<th scope="col">Tarih</th>
+					</tr>
+				</thead>
+				<tbody id="messageTableBody">
+					@if (Model.Messages != null)
+					{
+						foreach (var message in Model.Messages)
+						{
+							<tr>
+								<td>@message.Id</td>
+								<td>@message.Sender.UserName</td>
+								<td>@message.Receiver.UserName</td>
+								<td>@message.Text</td>
+								<td>@message.CreatedAt</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,50 @@
+﻿@model UserSignUpViewModel
+@{
+	ViewData["Title"] = "Register";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-6">
+	<div class="card">
+		<div class="card-body">
+			<h2 class="card-title text-center mb-4">Register</h2>
+			<form asp-action="Register">
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="fullName" asp-for="@Model.NameSurname" placeholder="Full Name">
+					<label for="fullName">İsim Soyisim</label>
+				</div>
+				<div class="form-floating mb-3">
+					<input type="email" class="form-control" id="email" asp-for="@Model.Email" placeholder="name@example.com">
+					<label for="email">Email</label>
+				</div>
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="username" asp-for="@Model.Username" placeholder="Username">
+					<label for="username">Kullanıcı Adı</label>
+				</div>
+
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="number" asp-for="@Model.Number" placeholder="Password" >
+					<label for="number">Numara (Okul)</label>
+				</div>
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="Code" asp-for="@Model.Code" placeholder="Password">
+					<label for="number">Giriş Kodunuz</label>
+				</div>
+				<div class="form-floating mb-3">
+					<input type="password" class="form-control" id="password" asp-for="@Model.Password" placeholder="Password">
+					<label for="password">Şifre</label>
+				</div>
+				<button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+				<br />
+				<br />
+				@if (TempData["weHaveAlready"]!=null)
+				{
+					<div class="text-danger">@TempData["weHaveAlready"]</div>
+					TempData["weHaveAlready"]=null;
+				}
+				<div class="text-danger" asp-validation-summary="ModelOnly">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

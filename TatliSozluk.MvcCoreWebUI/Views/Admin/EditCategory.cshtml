@@ -1,0 +1,92 @@
+﻿@model EditCategoryViewModel
+@{
+	ViewData["Title"] = "AddCategory";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div style="margin-top:1%;margin-left:1%;margin-right:1%">
+@if (TempData["SuccessfullyAddedCategory"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessfullyAddedCategory"]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	TempData["SuccessfulyAddedCategory"] = null;
+}
+@if (TempData["SuccessfullyDisabledCategory"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessfullyDisabledCategory"]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	TempData["SuccessfullyDisabledCategory"] = null;
+}
+@if (TempData["SuccessfullyEnabledCategory"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessfullyEnabledCategory"]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	TempData["SuccessfullyEnabledCategory"] = null;
+}
+@if (TempData["SuccessfullyDeletedCategory"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+	@TempData["SuccessfullyDeletedCategory"]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	TempData["SuccessfullyDeletedCategory"] = null;
+}
+</div>
+<form asp-action="editcategory">
+	<div class="form-floating mb-3" style="margin-top:1%;margin-left:1%;margin-right:1%">
+		<label for="fullName">Kategori Adı</label>
+		<input type="text" class="form-control" id="name" asp-for="@Model.Category.Name" placeholder="Kategori adini giriniz.">
+		<br />
+		<br />
+		<button class="w-100 btn btn-lg btn-primary" type="submit">Ekle</button>
+	</div>
+	<div class="text-danger" asp-validation-summary="ModelOnly">
+	</div>
+</form>
+<div class="card-body p-0">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Kategori Id</th>
+				<th>Kategori Ad</th>
+				<th>Kategori Durum</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Categories)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.Name</td>
+					<td>@item.CategoryStatus</td>
+					<td class="text-right py-0 align-middle">
+						<div class="btn-group btn-group-sm">
+							@if (item.CategoryStatus == true)
+							{
+								<a href="/admin/disablecategory/@item.Id" class="btn btn-warning">Devre Dışı Bırak</a>
+							}
+							else
+							{
+								<a href="/admin/enablecategory/@item.Id" class="btn btn-info">Aktifleştir</a>
+							}
+							<a href="/admin/deletecategory/@item.Id" class="btn btn-danger">Sil</a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

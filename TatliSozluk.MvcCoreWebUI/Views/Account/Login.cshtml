@@ -1,0 +1,38 @@
+﻿@model UserSignInViewModel
+@{
+	ViewData["Title"] = "Login";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["Update"] != null)
+{
+	<div class="alert alert-success">@TempData["Update"]</div>
+	TempData["Update"] = null;
+}
+@if (TempData["SuccessfullyRegistration"]!=null)
+{
+	<div class="alert alert-success">@TempData["Update"]</div>
+	TempData["SuccessfullyRegistration"] = null;
+}
+@if (TempData["ChangeSuccess"] != null)
+{
+	<div class="alert alert-success">@TempData["ChangeSuccess"]</div>
+	TempData["ChangeSuccess"] = null;
+}
+
+<h2 class="text-center my-4">Login</h2>
+<form asp-action="Login">
+	<div class="mb-3">
+		<label for="text" class="form-label">Username</label>
+		<input type="text" class="form-control" id="username" asp-for="Username" as placeholder="Enter your username" required>
+	</div>
+	<div class="mb-3">
+		<label for="password" class="form-label">Password</label>
+		<input type="password" class="form-control" id="password" asp-for="Password" placeholder="Enter your password" required>
+	</div>
+	<div class="mb-3">
+		<button type="submit" class="btn btn-primary">Giriş Yap</button>
+	</div>
+	<div class="mb-3">
+		<a href="/account/forgotpassword" class="btn btn-primary">Şifreni mi unuttun?</a>
+	</div>
+</form>

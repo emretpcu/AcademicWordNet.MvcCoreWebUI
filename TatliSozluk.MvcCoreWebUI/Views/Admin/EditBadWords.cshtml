@@ -1,0 +1,72 @@
+﻿@model BadWordViewModel
+@{
+    ViewData["Title"] = "EditBadWords";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div style="margin-top:1%;margin-left:1%;margin-right:1%">
+	@if (TempData["SuccessfullyAddedBadWord"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["SuccessfullyAddedBadWord"]
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		TempData["SuccessfullyAddedBadWord"] = null;
+	}
+	@if (TempData["WentWrongForBadWord"] != null)
+	{
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			@TempData["WentWrongForBadWord"]
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		TempData["WentWrongForBadWord"] = null;
+	}
+	@if (TempData["SuccessfullyDeletedBadWord"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["SuccessfullyDeletedBadWord"]
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		TempData["SuccessfullyDeletedBadWord"] = null;
+	}
+</div>
+<form asp-action="editbadwords">
+	<div class="form-floating mb-3" style="margin-top:1%;margin-left:1%;margin-right:1%">
+		<label for="fullName">Sözcük Adı</label>
+		<input type="text" class="form-control" id="name" asp-for="@Model.BadWord.Word" placeholder="Kötü sözcük adini giriniz.">
+		<br />
+		<br />
+		<button class="w-100 btn btn-lg btn-primary" type="submit">Ekle</button>
+	</div>
+	<div class="text-danger" asp-validation-summary="ModelOnly">
+	</div>
+</form>
+<div class="card-body p-0">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Sözcük Id</th>
+				<th>Sözcük Ad</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.BadWords)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.Word</td>
+					<td class="text-right py-0 align-middle">
+						<div class="btn-group btn-group-sm">
+							<a href="/admin/deletebadword/@item.Id" class="btn btn-danger">Sil</a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

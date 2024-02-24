@@ -1,0 +1,93 @@
+﻿@model MessageViewModel
+<!-- Main content -->
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Mesajlar</h3>
+
+						<div class="card-tools">
+							<button type="button" class="btn btn-tool" data-card-widget="collapse">
+								<i class="fas fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-body p-0" >
+						<ul class="nav nav-pills flex-column">
+							<li class="nav-item active">
+								<a href="/message/" class="nav-link">
+									<i class="fas fa-inbox"></i> Gelen Kutusu
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="/message/sent/" class="nav-link">
+									<i class="far fa-envelope"></i> Gönderdiklerin
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /.card -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-9" style="margin-top:2%">
+				<div class="card card-primary card-outline">
+					<div class="card-header">
+						<h3 class="card-title">@Model.Message.Sender.UserName to @Model.Message.Receiver.UserName</h3>
+					</div>
+					<!-- /.card-header -->
+					<div class="card-body p-0">
+						<div class="mailbox-read-info">
+							<h6>
+								<span class="mailbox-read-time float-right">@Model.Message.CreatedAt</span>
+							</h6>
+						</div>
+						<div class="mailbox-read-message">
+							@Model.Message.Text
+						</div>
+						<!-- /.mailbox-read-message -->
+					</div>
+					<!-- /.card-footer -->
+					<div class="card-footer">
+						<button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Sil</button>
+					</div>
+					<!-- /.card-footer -->
+				</div>
+				<!-- /.card -->
+				<br />
+				<div class="col-md-12" >
+					<div class="card-header">
+						<h3 class="card-title">Yanıtla</h3>
+						<form asp-action="Index">
+							<div class="mb-3">
+								<input type="hidden" class="form-control" id="ReceiverId" asp-for="@Model.IsReply" value="true">
+								@if (Model.IsGetMessageReply==true)
+								{
+									<input type="hidden" class="form-control" id="ReceiverId" asp-for="@Model.Message.ReceiverId">
+									<input type="hidden" class="form-control" id="ReceiverId" asp-for="@Model.IsGetMessageReply" value="true">
+								}
+								else
+								{
+									<input type="hidden" class="form-control" id="ReceiverId" asp-for="@Model.Message.SenderId">
+									<input type="hidden" class="form-control" id="ReceiverId" asp-for="@Model.IsGetMessageReply" value="false">
+								}
+							</div>
+							<div class="mb-3">
+								<label for="text" class="form-label">İçerik</label>
+								<textarea class="form-control" id="text" asp-for="@Model.MessageForReply.Text" rows="5" placeholder="Mesajınız"></textarea>
+							</div>
+							<div class="mb-3">
+								<button type="submit" class="btn btn-primary">Gönder</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
+</section>

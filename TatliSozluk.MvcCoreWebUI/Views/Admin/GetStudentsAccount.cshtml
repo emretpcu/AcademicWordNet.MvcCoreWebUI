@@ -1,0 +1,60 @@
+﻿@using EntityLayer.Concreate;
+@model IEnumerable<User>
+@{
+	ViewData["Title"] = "GetStudentsAccount";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-body p-0" style="max-height: 300px; overflow-y: auto;">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Kullanıcı Adı</th>
+				<th>Adı Soyadı</th>
+				<th>Sınıfı</th>
+				<th>Numarası</th>
+				<th>Giriş Kodu</th>
+				<th>Mail Adresi</th>
+				<th>Hesabı Sil</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				@try
+				{
+					<tr>
+						<td>
+							<a href="@Url.Action("Profile", "Account", new { username = @item.UserName })">
+								<small class="text-muted">@item.UserName</small>
+							</a>
+						</td>
+						<td>@item.NameSurname</td>
+						@if (item.NameSurname !="adminuser")
+						{
+							<td>@item.StudentLogin.Class</td>
+							<td>@item.StudentLogin.Number</td>
+							<td>@item.StudentLogin.LoginCode</td>
+						}
+						<td>@item.Email</td>
+						<td>
+							@if (User.Identity.Name!=item.UserName)
+							{
+								<a href="@Url.Action("deleteaccount", "admin", new { username = @item.UserName })">
+									<small class="text-muted">Hesabı Sil</small>
+								</a>
+							}
+						</td>
+					</tr>
+				}
+				catch (Exception)
+				{
+
+					continue;
+				}
+
+			}
+		</tbody>
+	</table>
+</div>
+

@@ -1,0 +1,68 @@
+﻿@foreach (var item in Model.Entries)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            @if (Model.IsForMainHeadingPage==true)
+            {
+                <a href="/entry/details/@item.Id" style="color:black"><h4 class="mb-0">@item.Heading.Title</h4></a>
+            }
+            else
+            {
+                <a href="/heading/index/@item.HeadingId" style="color:black"><h4 class="mb-0">@item.Heading.Title</h4></a>
+            }
+            <div>
+                <small class="text-muted">@item.CreatedDate.ToString("MM.dd.yyyy HH:mm")</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text">@item.Explanation</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <form method="post">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary upto-btn" data-content-id="@item.Id">
+                            <i class="fas fa-thumbs-up" alt="up"></i> <span class="upvote-count" id="upvote-count-@item.Id">@item.UpVote</span>
+                        </button>
+                        @if (User.Identity.IsAuthenticated && User.Identity.Name == item.User.UserName)
+                        {
+                            <div class="btn-group btn-group-sm text-right py-0 align-middle">
+                                <a href="/entry/delete/@item.Id" class="btn btn-danger align-middle">Sil</a>
+                            </div>
+                        }
+                    </div>
+                </form>
+                <a href="@Url.Action("Profile", "Account", new { username = item.User.UserName })">
+                    <small class="text-muted">@item.User.UserName</small>
+                </a>
+            </div>
+        </div>
+    </div>
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.upto-btn').click(function () {
+            var button = $(this);
+            var entryId = button.data('content-id');
+
+            $.ajax({
+                url: '/Entry/UpTo/' + entryId,
+                type: 'POST',
+                success: function (data) {
+                    var upvoteCount = data.upvoteCount;
+                    $('#upvote-count-' + entryId).text(upvoteCount);
+
+                    if (data.hasUpvoted == false) {
+                        button.addClass('black-button');
+                        button.removeClass('gray-button');
+                    }
+                    else {
+                        button.removeClass('black-button');
+                        button.addClass('gray-button');
+                    }
+                },
+                dataType: 'json'
+            });
+        });
+    });
+</script>
+

@@ -1,0 +1,115 @@
+﻿@using HakinSozluk.MvcCoreWebUI.Models;
+@model StudentInfoViewModel;
+@{
+    ViewData["Title"] = "GetStudentsInformations";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@*<form asp-action="editcategory">
+	<div class="form-floating mb-3" style="margin-top:1%;margin-left:1%;margin-right:1%">
+		<label for="fullName">Kategori Adı</label>
+		<input type="text" class="form-control" id="name" asp-for="@Model.Category.Name" placeholder="Kategori adini giriniz.">
+		<br />
+		<br />
+		<button class="w-100 btn btn-lg btn-primary" type="submit">Ekle</button>
+	</div>
+	<div class="text-danger" asp-validation-summary="ModelOnly">
+	</div>
+</form>*@
+<form id="searchForm">
+	<div class="mb-3">
+		<label for="searchUser" class="form-label">Öğrenci Ara:</label>
+		<input type="text" class="form-control" id="searchUser" placeholder="Öğrenci adını girin" required>
+	</div>
+</form>
+<div id="userList" class="list-group user-list" style="max-height: 300px; overflow-y: auto;">
+	<!-- Tüm kullanıcıları listele -->
+	@foreach (var user in Model.StudentInformations)
+	{
+		<a data-userid="@user.LoginCode" class="list-group-item list-group-item-action">
+			<p class="mb-0">@user.NameSurname</p>
+		</a>
+	}
+</div>
+<br/>
+<div class="card-body p-0" style="max-height: 300px; overflow-y: auto;">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Giriş Kodu</th>
+				<th>Sınıf</th>
+				<th>Okul No</th>
+				<th>Adı Soyadı</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.StudentInformations)
+			{
+				<tr>
+					<td>@item.LoginCode</td>
+					<td>@item.Class</td>
+					<td>@item.Number</td>
+					<td>@item.NameSurname</td>
+					<td class="text-right py-0 align-middle">
+						<a href="/admin/updatestudent/@item.LoginCode" class="btn btn-info">Güncelle</a>
+						<a href="/admin/deletestudent/@item.LoginCode" class="btn btn-danger">Sil</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<form asp-controller="Admin" asp-action="UploadClass" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label for="excelFile">Excel Dosyası Seçin (İsim Soyisim,Sınıf,Numara Şeklinde)</label>
+		<input type="file" class="form-control-file" id="excelFile" name="excelFile" required>
+	</div>
+	<button type="submit" class="btn btn-primary">Yükle</button>
+</form>
+
+<br />
+<br />
+<a href="/admin/updateclass/1" class="btn btn-danger">Tüm sınıf düzeylerini bir üst sınıfa çıkar.</a>
+<a href="/admin/updateclass/0" class="btn btn-danger">Tüm sınıf düzeylerini bir alt sınıfa indir (not: mezunlar inmez ve numaraları silik kalır !!).</a>
+
+@*<a href="/admin/updateclass/1" class="btn btn-info">Tüm Sınıfları Bir Üst Sınıfa Güncelle</a>
+<a href="/admin/updateclass/2" class="btn btn-info">Tüm Sınıfları Bir Alt Sınıfa Güncelle</a>*@
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+	$(document).ready(function () {
+		$('#searchUser').on('input', function () {
+			searchUser();
+		});
+
+		function searchUser() {
+			var searchValue = $('#searchUser').val().toLowerCase();
+			$('#userList a').each(function () {
+				var userId = $(this).data('userid').toString().toLowerCase();
+				var username = $(this).find('p').text().toLowerCase(); // Kullanıcı adını p etiketi içinden alın
+				if (userId.includes(searchValue) || username.includes(searchValue)) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			});
+		}
+
+		$('#userList').on('click', 'a', function () {
+			var selectedUserId = $(this).data('userid');
+			postUserClick(selectedUserId);
+		});
+		function postUserClick(selectedUserId) {
+			console.log('Selected User ID: ', selectedUserId);
+			var profileUrl ='/admin/updatestudent/' + selectedUserId;
+
+			window.location.href = profileUrl;
+		}
+
+	});
+</script>

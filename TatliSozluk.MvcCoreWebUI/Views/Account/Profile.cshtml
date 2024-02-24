@@ -1,0 +1,17 @@
+﻿@model ProfileViewModel
+@{
+	ViewData["Title"] = "Profile";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card-header" style="margin-bottom:2%;">
+	<h4>
+		@Model.User.UserName
+		@if (Model.User.UserName == User.Identity.Name)
+		{
+			<a href="/Account/Edit/"><p style="color:green;font-size: 15px;">Profili Düzenle</p></a>
+		}
+
+	</h4>
+</div>
+
+@await Html.PartialAsync("/Views/Partial/_EntriesPartialForProfile.cshtml")

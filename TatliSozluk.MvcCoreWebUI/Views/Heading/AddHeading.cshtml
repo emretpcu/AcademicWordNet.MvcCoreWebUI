@@ -1,0 +1,53 @@
+﻿@model TatliSozluk.MvcCoreWebUI.Models.AddHeadingViewModel
+@{
+	ViewData["Title"] = "AddHeading";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["HeadingError"] != null)
+{
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		@TempData["HeadingError"]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+}
+<form asp-action="AddHeading">
+	<div class="mb-3">
+		<label for="text" class="form-label">Başlık</label>
+		<input type="text" class="form-control" id="Title" asp-for="Heading.Title" value="@Model.Heading" required>
+	</div>
+
+	<div class="mb-3">
+		<label for="text" class="form-label">Kategori: </label>
+		<select id="Category" asp-for="Heading.CategoryId">
+			@foreach (var category in Model.Categories)
+			{
+				<option value="@category.Id">@category.Name</option>
+			}
+		</select>
+	</div>
+	<div class="col-md-12">
+		<div class="card mb-12">
+			<div class="card-header">
+				<h4>Entry Ekle</h4>
+			</div>
+			<div class="card-body">
+				<div class="form-group">
+					<label for="explanation">Açıklama</label>
+					<textarea class="form-control" id="explanation" asp-for="Entry.Explanation" rows="5" required></textarea>
+				</div>
+				<br />
+			</div>
+		</div>
+	</div>
+	<br />
+	<div class="mb-3">
+		<button type="submit" class="btn btn-primary">Başlık Ekle</button>
+		<br />
+		<br />
+		<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+	</div>
+</form>
+
+

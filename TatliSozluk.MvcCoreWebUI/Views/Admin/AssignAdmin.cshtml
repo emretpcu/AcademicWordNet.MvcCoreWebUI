@@ -1,0 +1,94 @@
+﻿@model AssignAdminViewModel
+@{
+	ViewData["Title"] = "AssignAdmin";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["SuccessfullyAddedAdmin"] != null)
+{
+	<div class="alert alert-success">@TempData["SuccessfullyAddedAdmin"]</div>
+	TempData["SuccessfullyAddedAdmin"] = null;
+}
+@if (TempData["WeDontHave"] != null)
+{
+	<div class="alert alert-danger">@TempData["WeDontHave"]</div>
+	TempData["WeDontHave"] = null;
+}
+@if (TempData["SuccessfullyRemovedAdmin"] != null)
+{
+	<div class="alert alert-success">@TempData["SuccessfullyRemovedAdmin"]</div>
+	TempData["SuccessfullyRemovedAdmin"] = null;
+}
+@if (TempData["FailedToRemoveAdmin"] != null)
+{
+	<div class="alert alert-success">@TempData["FailedToRemoveAdmin"]</div>
+	TempData["FailedToRemoveAdmin"] = null;
+}
+@if (TempData["UserNotFound"] != null)
+{
+	<div class="alert alert-success">@TempData["UserNotFound"]</div>
+	TempData["UserNotFound"] = null;
+}
+<div class="row">
+	<div class="col-md-4">
+		<div class="card-header">
+			<form method="post">
+				<div class="mb-3">
+					<label for="text" class="form-label">Kimi Admin Yapmak İstiyorsun (Kullanıcı Adı)</label>
+					<input type="text" class="form-control" id="username" asp-for="@Model.UserName" placeholder="Kullanıcı adı giriniz" required>
+				</div>
+				<div class="mb-3">
+					<label for="text" class="form-label">Kullanıcı Adı (tekrar)</label>
+					<input type="text" class="form-control" id="username" asp-for="@Model.UsernameAgain" placeholder="Kullanıcı adı giriniz (tekrar)" required>
+				</div>
+				<div class="mb-3">
+					<button type="submit" class="btn btn-primary">Admin Ata</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<div class="card">
+			<div class="card-header">
+				<h5>Adminlerimiz</h5>
+			</div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Kullanıcı Adı</th>
+							<th scope="col">Admin Kaldır</th>
+							<!-- Add additional columns if needed -->
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Loop through your active admins and display them in rows -->
+						@foreach (var admin in Model.Users)
+						{
+							@if (User.Identity.Name == admin.UserName)
+							{
+								continue;
+							}
+							else
+							{
+								<tr>
+									<td>@admin.UserName</td>
+
+									<td>
+										<form asp-action="RemoveAdmin" method="post">
+											<input type="hidden" asp-for="@admin.UserName" name="userName" />
+											<input type="submit" class="btn btn-danger align-middle" value="Sil" />
+										</form>
+									</td>
+
+									<!-- Add additional cells with admin information if needed -->
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

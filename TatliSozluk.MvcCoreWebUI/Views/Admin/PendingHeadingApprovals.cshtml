@@ -1,0 +1,49 @@
+﻿@using EntityLayer.Concreate;
+@model IEnumerable<Heading>
+@{
+	ViewData["Title"] = "PendingHeadingApprovals";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div style="margin-top:1%;margin-left:1%;margin-right:1%">
+	@if (TempData["SuccessfullyEditedHeading"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["SuccessfullyEditedHeading"]
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		TempData["SuccessfullyEditedHeading"] = null;
+	}
+	<div class="card-body p-0">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Başlık İd</th>
+					<th>Başlık İsmi</th>
+					<th>Oluşturan</th>
+					<th>Hangi Kategoride</th>
+					<th>Tarihinde</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.Id</td>
+						<td>@item.Title</td>
+						<td><a href="@Url.Action("Profile", "Account", new { userId = item.FromWhoId })">@item.FromWho.UserName</a></td>
+						<td>@item.Category.Name</td>
+						<td>@item.CreatedDate</td>
+						<td class="text-right py-0 align-middle">
+							<div class="btn-group btn-group-sm">
+								<a href="/admin/enableheading/@item.Id" class="btn btn-info"><i class="fas fa-check"></i></a>
+								<a href="/admin/deleteheading/@item.Id" class="btn btn-danger"><i>Başlığı Sil</i></a>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

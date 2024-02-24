@@ -1,0 +1,64 @@
+﻿@model EntityLayer.Concreate.User
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["EmailSuccess"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		Başarılı bir şekilde mailinizi doğruladınız.
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+}
+@if (TempData["EmailError"] != null)
+{
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		Mail Doğrulanamadı.
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+}
+<br />
+<form asp-action="Edit">
+	<div class="mb-3">
+		<label for="text" class="form-label">Ad Soyad</label>
+		<input type="text" class="form-control" id="nameSurname" asp-for="NameSurname" value="@Model.NameSurname" readonly="yes">
+	</div>
+	<div class="mb-3">
+		<label for="text" class="form-label">Kullanıcı Adı</label>
+		<input type="text" class="form-control" id="userName" asp-for="UserName" value="@Model.UserName">
+	</div>
+	<div class="mb-3">
+		<label for="text" class="form-label">Email</label>
+		<input type="text" class="form-control" id="email" asp-for="Email" value="@Model.Email">
+		<br />
+@*		@if (Model.EmailConfirmed == false)
+		{
+			<a href="/account/emailconfirmation/" class="btn btn-success">Doğrula</a>
+
+		}*@
+	</div>
+@*	<div class="mb-3">
+		<label for="text" class="form-label">Fotoğraf</label>
+		<input type="text" class="form-control" id="imageUrl" asp-for="ImageUrl" value="@Model.ImageUrl">
+	</div>*@
+@*	<div class="mb-3">
+		<label for="text" class="form-label">Şifre</label>
+		<input type="password" class="form-control" id="password" asp-for="PasswordHash" value="@Model.PasswordHash" onclick="this.value='';">
+	</div>*@
+	<div class="mb-3">
+		<label for="text" class="form-label">Hesabın Oluşturulma Tarihi</label>
+		<input type="text" class="form-control" id="createdDate" asp-for="CreatedDate" value="@Model.CreatedDate" readonly="yes">
+	</div>
+	<div class="mb-3">
+		<button type="submit" class="btn btn-primary">Güncelle</button>
+	    <a href="/account/changepassword" class="btn btn-primary">Şifreni Güncelle</a>
+
+		<br />
+		<br />
+		<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+	</div>
+</form>

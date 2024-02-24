@@ -1,0 +1,68 @@
+﻿@model HakinSozluk.MvcCoreWebUI.Models.UpdateStudentViewModel
+@{
+	ViewData["Title"] = "UpdateStudent";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["success4update"] != null)
+{
+	<div class="alert alert-success">@TempData["success4update"]</div>
+	TempData["success4update"] = null;
+}
+@if (TempData["fail4update"] != null)
+{
+	<div class="alert alert-danger">@TempData["fail4update"]</div>
+	TempData["fail4update"] = null;
+}
+
+<br />
+<form method="post">
+	<div class="mb-3">
+		<input type="number" class="form-control" id="LoginCode" asp-for="StudentInformation.LoginCode" value="@Model.StudentInformation.LoginCode" readonly="yes" required>
+	</div>
+	<div class="mb-3">
+		<label for="text" class="form-label">Ad Soyad</label>
+		<input type="text" class="form-control" id="nameSurname" asp-for="StudentInformation.NameSurname" value="@Model.StudentInformation.NameSurname" readonly="yes" required>
+	</div>
+	<div class="mb-3">
+		<label for="text" class="form-label">Sınıf</label>
+		<input type="text" class="form-control" id="Class" asp-for="StudentInformation.Class" value="@Model.StudentInformation.Class" required>
+	</div>
+	<div class="mb-3">
+		<label for="text" class="form-label">Okul Numarası</label>
+		<input type="text" class="form-control" id="number" asp-for="StudentInformation.Number" value="@Model.StudentInformation.Number" required>
+	</div>
+	@if (Model.isAccountActive == true)
+	{
+		<div class="mb-3">
+			<label for="text" class="form-label">Kullanıcı Adı</label>
+			<input type="text" class="form-control" id="username" asp-for="User.UserName" value="@Model.User.UserName" required>
+			<br />
+		</div>
+		<div class="mb-3">
+			<label for="email" class="form-label">Email</label>
+			<input type="email" class="form-control" id="email" asp-for="User.Email" value="@Model.User.Email" required>
+			<br />
+		</div>
+	}
+	@*		@if (Model.EmailConfirmed == false)
+	{
+	<a href="/account/emailconfirmation/" class="btn btn-success">Doğrula</a>
+
+	}
+	</div>
+	@*	<div class="mb-3">
+	<label for="text" class="form-label">Fotoğraf</label>
+	<input type="text" class="form-control" id="imageUrl" asp-for="ImageUrl" value="@Model.ImageUrl">
+	</div>*@
+	@*	<div class="mb-3">
+	<label for="text" class="form-label">Şifre</label>
+	<input type="password" class="form-control" id="password" asp-for="PasswordHash" value="@Model.PasswordHash" onclick="this.value='';">
+	</div>*@
+	<div class="mb-3">
+		<button type="submit" class="btn btn-primary">Güncelle</button>
+		<br />
+		<br />
+		<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+	</div>
+</form>

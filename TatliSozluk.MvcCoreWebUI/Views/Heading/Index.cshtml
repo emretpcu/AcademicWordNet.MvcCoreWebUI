@@ -1,0 +1,48 @@
+﻿@model HeadingViewModel
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["BadWordsFound"] != null)
+{
+	<div class="text-danger">@TempData["BadWordsFound"]</div>
+	TempData["BadWordsFound"] = null;
+}
+<div class="card-header" style="margin-bottom:2%;">
+	<h4>
+		@Model.Heading.Title
+		<div style="margin-top:1%">
+		@if (User.IsInRole("Admin"))
+		{
+			<div class="btn-group btn-group-sm text-right py-0 align-middle">
+					<a href="/admin/deleteheading/@Model.Heading.Id" class="btn btn-danger align-middle">Sil</a>
+				<a href="/admin/disableheading/@Model.Heading.Id" class="btn btn-warning align-middle">Devre Dışı Bırak</a>
+			</div>
+		}
+		</div>
+	</h4>
+</div>
+@await Html.PartialAsync("/Views/Partial/_EntriesPartialForHeading.cshtml")
+@if (User.Identity.IsAuthenticated)
+{
+	<div class="col-md-12">
+		<div class="card mb-12">
+			<div class="card-header">
+				<h4>Entry Ekle</h4>
+			</div>
+			<div class="card-body">
+				<form method="post" action="@Url.Action("addentry", "entry")">
+					<div class="form-group">
+						<label for="explanation">Açıklama</label>
+						<input type="hidden" value="@Model.Heading.Id" name="HeadingId">
+						<textarea class="form-control" id="explanation" name="Explanation" rows="5" required></textarea>
+					</div>
+					<br />
+					<button type="submit" class="btn btn-primary">Kaydet</button>
+				</form>
+			</div>
+		</div>
+	</div>
+}
+
+

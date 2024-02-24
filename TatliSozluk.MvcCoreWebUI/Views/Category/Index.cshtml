@@ -1,0 +1,7 @@
+﻿@using EntityLayer.Concreate;
+@model List<Entry>
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@await Html.PartialAsync("/Views/Partial/_EntriesPartial.cshtml")

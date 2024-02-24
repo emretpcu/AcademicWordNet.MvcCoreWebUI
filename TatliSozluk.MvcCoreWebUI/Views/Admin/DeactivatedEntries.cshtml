@@ -1,0 +1,74 @@
+﻿@model EditEntryViewModel
+@{
+	ViewData["Title"] = "DeactivatedEntries";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (TempData["SuccessfullyDeletedEntry"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessfullyDeletedEntry"]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	TempData["SuccessfullyDeletedEntry"] = null;
+}
+@if (TempData["SuccessfullyEnabledEntry"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessfullyEnabledEntry"]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	TempData["SuccessfullyEnabledEntry"] = null;
+}
+<div style="margin-top:1%;margin-left:1%;margin-right:1%">
+	@if (TempData["SuccessfullyDisabledEntry"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["SuccessfullyDisabledEntry"]
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		TempData["SuccessfullyDisabledEntry"] = null;
+	}
+</div>
+<div class="card-body p-0">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Entry Id</th>
+				<th>Entry</th>
+				<th>Başlık</th>
+				<th>Beğeni Sayısı</th>
+				<th>Kimden</th>
+				<th>Oluşturulma Tarihi</th>
+				<th>Durum</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Entries)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.Explanation</td>
+					<td>@item.Heading.Title</td>
+					<td>@item.UpVote</td>
+					<td>@item.User.UserName</td>
+					<td>@item.CreatedDate</td>
+					<td>@item.Status</td>
+					<td class="text-right py-0 align-middle">
+						<div class="btn-group btn-group-sm">
+							<a href="/admin/enableentry/@item.Id" class="btn btn-info">Aktifleştir</a>
+							<a href="/admin/deleteentry/@item.Id" class="btn btn-danger">Sil</a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+

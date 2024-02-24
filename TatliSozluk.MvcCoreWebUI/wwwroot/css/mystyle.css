@@ -1,0 +1,83 @@
+﻿body {
+}
+.entry-card {
+    margin: 10px;
+}
+
+.entry-header {
+    display: flex;
+    align-items: center;
+}
+
+    .entry-header img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    .entry-header h5 {
+        margin-bottom: 0;
+    }
+
+.entry-body {
+    margin: 10px;
+    border-left: 3px solid #007bff;
+    padding-left: 10px;
+}
+
+.entry-vote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+    .entry-vote button {
+        font-size: 18px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+        .entry-vote button:focus {
+            outline: none;
+        }
+
+        .entry-vote button:hover {
+            color: #007bff;
+        }
+
+.close {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #000;
+    text-shadow: none;
+    opacity: 1;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+.black-button {
+    color: black;
+    /* Diğer stil özelliklerini buraya ekleyebilirsiniz */
+}
+
+.gray-button {
+    color: gray;
+    /* Diğer stil özelliklerini buraya ekleyebilirsiniz */
+}
+.bg-purple {
+    background-color: rgb(104, 7, 212); !important;
+}
+@media (max-width: 767px) {
+    .col-md-3 {
+        margin: 0 auto; /* Set left and right margin to auto for centering */
+        float: none; /* Disable float for centering */
+    }
+}

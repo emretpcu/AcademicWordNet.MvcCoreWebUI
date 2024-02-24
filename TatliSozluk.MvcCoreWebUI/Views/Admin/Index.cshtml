@@ -1,0 +1,163 @@
+﻿@model AdminDashboardViewModel
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<section class="content">
+	<div class="container-fluid">
+		<h5 class="mb-2">Bugün</h5>
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">Başlık Açıldı</span>
+						<span class="info-box-number">@Model.HeadingsToday</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">Entry Girildi</span>
+						<span class="info-box-number">@Model.EntriesToday</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">Mesaj Atıldı</span>
+						<span class="info-box-number">@Model.MessagesToday</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+		</div>
+		<!-- /.row -->
+		<!-- =========================================================== -->
+		<h5 class="mt-4 mb-2">Tüm Zamanlarda</h5>
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box bg-info">
+					<span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">
+							Başlık Açıldı
+						</span>
+						<span class="info-box-number">@Model.AllHeadings</span>
+
+						@*<div class="progress">
+						<div class="progress-bar" style="width: 70%"></div>
+						</div>
+						<span class="progress-description">
+						70% Increase in 30 Days
+						</span>*@
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box bg-success">
+					<span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">Entry Girildi</span>
+						<span class="info-box-number">@Model.AllEntries</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box bg-warning">
+					<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">Mesaj Atildi</span>
+						<span class="info-box-number">@Model.AllMessages</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+		<!-- =========================================================== -->
+		<h5 class="mt-4 mb-2">Onay Kutucuğu</h5>
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box bg-gradient-info">
+					<span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+
+					<div class="info-box-content">
+						<a href="/admin/pendingheadingapprovals" style="color:white">
+							<span class="info-box-text">Onay Bekleyen Başlıklar</span>
+							<span class="info-box-number">@Model.WaitingForApporove</span>
+						</a>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box bg-success">
+					<span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+
+					<div class="info-box-content">
+						<a href="admin/editcategory" style="color:white">
+							<span class="info-box-text">Kategoriye Sahibiz</span>
+						<span class="info-box-number">@Model.Categories</span>
+						</a>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+			<div class="col-md-3 col-sm-6 col-12">
+				<div class="info-box bg-gradient-warning">
+					<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+
+					<div class="info-box-content">
+						<span class="info-box-text">Toplam Başlık Sayısı (Onaylanmamis Dahil)</span>
+						<span class="info-box-number">@Model.AllHeadingsWithoutApporove</span>
+					</div>
+					<!-- /.info-box-content -->
+				</div>
+				<!-- /.info-box -->
+			</div>
+		</div>
+	</div>
+
+	<h5 class="mt-4 mb-2">Kötü Sözcük</h5>
+	<div class="row">
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box bg-gradient-info">
+				<span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+
+				<div class="info-box-content">
+					<a href="/admin/editbadwords" style="color:white">
+						<span class="info-box-text">Kötü Sözcüğe Sahibiz</span>
+						<span class="info-box-number">@Model.BadWords</span>
+					</a>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+	</div>
+</section>
