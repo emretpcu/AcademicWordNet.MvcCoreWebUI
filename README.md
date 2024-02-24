@@ -23,3 +23,7 @@ To start using AcademicWordNet.MvcCoreWebUI, follow these steps:
 5. Run database migrations to create the necessary tables.
 6. Build and run the application.
 7. As an administrator, manage student registrations and oversee content quality through the admin panel.
+
+## Default Admin Credentials
+
+In this project, an admin account with the username "adminuser" and the password "Admin1-" is automatically created. Please make sure to change the password for security reasons after the initial setup.
